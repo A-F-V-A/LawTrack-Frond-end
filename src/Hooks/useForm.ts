@@ -6,7 +6,7 @@ interface FormState {
 
 interface FormHook {
     formState: FormState;
-    onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    onInputChange: (event: ChangeEvent<HTMLInputElement  | HTMLTextAreaElement >) => void;
     onResetForm: () => void;
 }
 
@@ -14,7 +14,7 @@ export const useForm = ( initialForm: FormState = {} ) :FormHook => {
   
     const [ formState, setFormState ] = useState<FormState>( initialForm );
 
-    const onInputChange = ({ target }:ChangeEvent<HTMLInputElement>) => {
+    const onInputChange = ({ target }:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = target;
         setFormState({
             ...formState,

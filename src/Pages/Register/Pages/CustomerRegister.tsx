@@ -1,9 +1,7 @@
-import { Register } from '../Components'
-import './sass/index.scss'
+import { Register } from "../../../Components"
 
 
-
-export const App = () =>{
+export const CustomerRegister = () =>{
     return (
         <div className='container d-flex justify-content-center align-items-center w-100 h-100'>
            <Register/>
