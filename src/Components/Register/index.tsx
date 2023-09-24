@@ -1,10 +1,12 @@
 import { useEffect, useState, ChangeEvent } from "react"
+import { useNavigate } from 'react-router-dom';
 import { Customer, Role } from "../../Model"
 import { Form } from '../index.ts'
 import { useForm } from "../../Hooks/useForm.ts";
 
 export const Register = () =>{
-    const [selectedRole, setSelectedRole] = useState<Role | null>(null);
+    const navigate = useNavigate()
+    const [selectedRole, setSelectedRole] = useState<Role | null>(null)
     const [roles, setRole] = useState<Role[]>()
     const { formState, onInputChange } = useForm({
             name:'',
@@ -38,7 +40,7 @@ export const Register = () =>{
             id:null,
             name,
             lastName,
-            IdentificationCard: cedula,
+            identificationCard: cedula,
             role:selectedRole
         }
 
@@ -52,8 +54,12 @@ export const Register = () =>{
             body: JSON.stringify(newCustomer)
         })
         .then(response => response.json())
-        .then(data => {
-            console.log('Respuesta del servidor:', data);
+        .then((data:Customer) => {
+            console.log('Respuesta del servidor:', data)
+            if(data.id){
+                navigate('/register/customer/support',{ state: { customer : data  } })
+            }
+            
         })
         .catch(error => {
             console.error('Error al hacer la solicitud:', error);

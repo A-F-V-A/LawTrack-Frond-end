@@ -4,6 +4,6 @@ export interface Customer {
     id: string | null;
     name: string;
     lastName: string;
-    IdentificationCard: string;
+    identificationCard: string;
     role: Role;
 }

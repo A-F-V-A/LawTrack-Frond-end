@@ -1,5 +1,7 @@
 import { Form } from '../index.ts'
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from "../../Hooks/useForm.ts";
+import { Customer } from '../../Model/Customer';
 
 export const Support = () =>{
 
@@ -7,6 +9,26 @@ export const Support = () =>{
         NameArchive:'',
         Description:''
     })
+
+    let Title = ''
+    let id : string | null 
+
+    const navigate = useNavigate()
+
+    const location = useLocation()
+    
+    const { state } = location
+  
+    // Verificar si hay datos en el estado de la ubicación
+    if (state && state.customer) {
+      const { customer } = state as { customer: Customer }
+
+      Title = customer.name 
+      id = customer.id
+
+      // Aquí puedes trabajar con la información de "customer"
+      console.log(customer)
+    }
 
     const { NameArchive, Description } = formState
 
@@ -20,13 +42,15 @@ export const Support = () =>{
         formData.append('Description', Description)
         formData.append('Archive', fileInput?.files?.[0] || '')
 
-        console.log(formData)
+        console.log(formData,id)
+
+        navigate('/information/customer');
       
     }
 
     return  (
         <Form
-            title="Documentos de "
+            title={`Registrando Documentos de ${Title}`}
             onHandleSubmit={onHandleSubmit}
         >
             <div className="form-group col-6">
@@ -66,7 +90,7 @@ export const Support = () =>{
             </button>
 
             <div className='col-12 align-self-end'>
-                <a href="#" className="link-secondary">Sin documentos</a>
+                <Link className='link-secondary' to={`/information/customer`}>Sin documentos</Link>
             </div>
         </Form>
     )

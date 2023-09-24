@@ -8,14 +8,22 @@ interface FormHook {
     formState: FormState;
     onInputChange: (event: ChangeEvent<HTMLInputElement  | HTMLTextAreaElement >) => void;
     onResetForm: () => void;
+    setFormStateSpecific: ({ name, value }:FormState) => void;
 }
 
 export const useForm = ( initialForm: FormState = {} ) :FormHook => {
   
-    const [ formState, setFormState ] = useState<FormState>( initialForm );
+    const [ formState, setFormState ] = useState<FormState>( initialForm )
 
     const onInputChange = ({ target }:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = target;
+        const { name, value } = target
+        setFormState({
+            ...formState,
+            [ name ]: value
+        })
+    }
+
+    const setFormStateSpecific = ({ name, value }:FormState) =>{
         setFormState({
             ...formState,
             [ name ]: value
@@ -23,7 +31,7 @@ export const useForm = ( initialForm: FormState = {} ) :FormHook => {
     }
 
     const onResetForm = () => {
-        setFormState( initialForm );
+        setFormState( initialForm )
     }
 
     return {
@@ -31,5 +39,6 @@ export const useForm = ( initialForm: FormState = {} ) :FormHook => {
         formState,
         onInputChange,
         onResetForm,
+        setFormStateSpecific
     }
 }
